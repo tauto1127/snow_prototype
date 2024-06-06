@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:sinsetu_prototype/timer.dart';
+
+// 設定たち
+const notifierMessage = "こんにちは";
+const notifierTitle = "タイトル";
+const notifierSeconds = 10;
 
 final flutterLocalNotificationPlugin = FlutterLocalNotificationsPlugin();
 final DarwinInitializationSettings initializationSettingsDarwin = DarwinInitializationSettings(
@@ -15,19 +21,26 @@ void main() {
 
 class NotificationService {
   Future<void> notificationTapBackground() async {
-    print("notify");
     final InitializationSettings initializationSettings = InitializationSettings(iOS: initializationSettingsDarwin);
-    await flutterLocalNotificationPlugin.initialize(
-      initializationSettings,
-    );
+    await flutterLocalNotificationPlugin.initialize(initializationSettings,
+        onDidReceiveBackgroundNotificationResponse: OnDidReceiveBackgroundNotificationResponse,
+        onDidReceiveNotificationResponse: OnDidReceiveNotificationResponse);
   }
+}
+
+Future<void> startTimer() async {
+  await Future.delayed(const Duration(seconds: notifierSeconds));
+  const DarwinNotificationDetails darwinNotificationDetails = DarwinNotificationDetails();
+
+  const NotificationDetails notificationDetails = NotificationDetails(iOS: darwinNotificationDetails);
+
+  flutterLocalNotificationPlugin.show(id++, notifierTitle, notifierMessage, notificationDetails, payload: 'item z');
 }
 
 //@pragma('vm:entry-point')
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -37,43 +50,25 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(
+        title: "アプリ",
+      ),
     );
   }
 }
 
-// Future<void> _showNotificationWithActions() async {
-//   print("_showNotificationWithActions");
-//   // const AndroidNotificationDetails androidNotificationDetails = AndroidNotificationDetails(
-//   //   '...',
-//   //   '...',
-//   //   actions: <AndroidNotificationAction>[
-//   //     AndroidNotificationAction('id_1', 'Action 1'),
-//   //     AndroidNotificationAction('id_2', 'Action 2'),
-//   //     AndroidNotificationAction('id_3', 'Action 3'),
-//   //   ],
-//   // );
-//   const NotificationDetails notificationDetails = NotificationDetails(android: androidNotificationDetails);
-//   await flutterLocalNotificationPlugin.show(0, '...', '...', notificationDetails);
-// }
-
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
   final String title;
+
+  final String titleNotif = "通知";
+  final String bodyNotif = "通知";
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -81,37 +76,32 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+      body: Stack(
+        children: [
+          TextButton(
+            onPressed: () {
+              setState(() {});
+            },
+            child: const SizedBox.shrink(),
+          ),
+          const Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[],
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           requestPermissionsOnIos();
-          // _showNotificationWithActions();
+          await startTimer();
         },
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
-}
-
-Future<void> showNotificationOnIos() async {
-  const AndroidNotificationDetails androidNotificationDetails = AndroidNotificationDetails(
-    'id_1',
-    'Action 1',
-  );
 }
 
 int id = 0;
@@ -126,13 +116,14 @@ Future<void> requestPermissionsOnIos() async {
       sound: true,
     );
   }
-  if (iosFlutterLocalNotificationsPlugin != null) {
-    print("wao");
-    // await iosFlutterLocalNotificationsPlugin.show(1, 'Action 1', "こんにちは", const NotificationDetails());
-    const DarwinNotificationDetails darwinNotificationDetails = DarwinNotificationDetails();
+}
 
-    const NotificationDetails notificationDetails = NotificationDetails(iOS: darwinNotificationDetails);
+// ignore: non_constant_identifier_names
+void OnDidReceiveBackgroundNotificationResponse(NotificationResponse notificationResponse) {
+  print(notificationResponse);
+}
 
-    flutterLocalNotificationPlugin.show(id++, 'でも', 'そうだね 明日やろっか', notificationDetails, payload: 'item z');
-  }
+void OnDidReceiveNotificationResponse(NotificationResponse notificationResponse) {
+  print("通知がクリックされたとき");
+  print(notificationResponse);
 }
