@@ -92,6 +92,12 @@
       "languageVersion": "3.2"
     },
     {
+      "name": "flutter_callkit_incoming",
+      "rootUri": "file:///Users/takuto/.pub-cache/hosted/pub.dev/flutter_callkit_incoming-2.0.4+1",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
       "name": "flutter_launcher_icons",
       "rootUri": "file:///Users/takuto/.pub-cache/hosted/pub.dev/flutter_launcher_icons-0.10.0",
       "packageUri": "lib/",
@@ -278,7 +284,7 @@
       "languageVersion": "3.3"
     }
   ],
-  "generated": "2024-06-09T05:50:05.236456Z",
+  "generated": "2024-06-09T16:48:46.842880Z",
   "generator": "pub",
   "generatorVersion": "3.3.3"
 }
