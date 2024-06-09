@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:sinsetu_prototype/timer.dart';
 
 // 設定たち
 const notifierMessage = "こんにちは";
@@ -233,7 +231,6 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget tuuwaButtons() {
-    final buttonWaku = BoxDecoration(border: Border.all(color: Colors.black), borderRadius: BorderRadius.circular(200));
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: Column(
