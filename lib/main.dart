@@ -83,14 +83,7 @@ class _MyHomePageState extends State<MyHomePage> {
           return Column(
             children: [
               SizedBox(
-                height: 60,
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  "BATTARI",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40),
-                ),
+                height: 100,
               ),
               talkingWith(),
               const SizedBox(
@@ -103,10 +96,7 @@ class _MyHomePageState extends State<MyHomePage> {
         }),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          requestPermissionsOnIos();
-          await startTimer();
-        },
+        onPressed: () async {},
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
@@ -138,7 +128,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
             Text(
-              "あなたと同じ番組を見ていました",
+              "同じタイミングで扉を開けました",
               style: TextStyle(fontSize: 15),
             ),
           ],
@@ -198,9 +188,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget keywordsWidget() {
     const keywords = [
-      "結婚",
-      "子供",
-      "親戚",
+      "サークル",
+      "友達",
+      "バイト",
     ];
     return Column(
       children: [
@@ -218,7 +208,7 @@ class _MyHomePageState extends State<MyHomePage> {
               Card(
                   margin: const EdgeInsets.all(15),
                   child: Container(
-                    margin: const EdgeInsets.symmetric(vertical: 7, horizontal: 13),
+                    margin: const EdgeInsets.symmetric(vertical: 7, horizontal: 10),
                     child: Text(
                       keyword,
                       style: const TextStyle(fontSize: 20),
@@ -285,12 +275,18 @@ class _MyHomePageState extends State<MyHomePage> {
             children: [
               Container(
                 decoration: BoxDecoration(borderRadius: BorderRadius.circular(200), color: Colors.red),
-                child: const Padding(
+                child: Padding(
                   padding: EdgeInsets.all(18.0),
-                  child: Icon(
+                  child: IconButton(
                     color: Colors.white,
-                    Icons.close,
-                    size: 40,
+                    icon: Icon(
+                      Icons.close,
+                      size: 30,
+                    ),
+                    onPressed: () async {
+                      requestPermissionsOnIos();
+                      await startTimer();
+                    },
                   ),
                 ),
               ),
