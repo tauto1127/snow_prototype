@@ -17,11 +17,12 @@ const TextStyle titleTextStyle = TextStyle(
 );
 
 final flutterLocalNotificationPlugin = FlutterLocalNotificationsPlugin();
-final DarwinInitializationSettings initializationSettingsDarwin = DarwinInitializationSettings(
-    requestAlertPermission: true,
-    requestBadgePermission: true,
-    requestSoundPermission: true,
-    onDidReceiveLocalNotification: (id, title, body, payload) {});
+final DarwinInitializationSettings initializationSettingsDarwin =
+    DarwinInitializationSettings(
+        requestAlertPermission: true,
+        requestBadgePermission: true,
+        requestSoundPermission: true,
+        onDidReceiveLocalNotification: (id, title, body, payload) {});
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   NotificationService().notificationTapBackground();
@@ -30,20 +31,26 @@ void main() {
 
 class NotificationService {
   Future<void> notificationTapBackground() async {
-    final InitializationSettings initializationSettings = InitializationSettings(iOS: initializationSettingsDarwin);
+    final InitializationSettings initializationSettings =
+        InitializationSettings(iOS: initializationSettingsDarwin);
     await flutterLocalNotificationPlugin.initialize(initializationSettings,
-        onDidReceiveBackgroundNotificationResponse: OnDidReceiveBackgroundNotificationResponse,
+        onDidReceiveBackgroundNotificationResponse:
+            OnDidReceiveBackgroundNotificationResponse,
         onDidReceiveNotificationResponse: OnDidReceiveNotificationResponse);
   }
 }
 
 Future<void> startTimer() async {
   await Future.delayed(const Duration(seconds: notifierSeconds));
-  const DarwinNotificationDetails darwinNotificationDetails = DarwinNotificationDetails();
+  const DarwinNotificationDetails darwinNotificationDetails =
+      DarwinNotificationDetails();
 
-  const NotificationDetails notificationDetails = NotificationDetails(iOS: darwinNotificationDetails);
+  const NotificationDetails notificationDetails =
+      NotificationDetails(iOS: darwinNotificationDetails);
 
-  flutterLocalNotificationPlugin.show(id++, notifierTitle, notifierMessage, notificationDetails, payload: 'item z');
+  flutterLocalNotificationPlugin.show(
+      id++, notifierTitle, notifierMessage, notificationDetails,
+      payload: 'item z');
 }
 
 //@pragma('vm:entry-point')
@@ -300,7 +307,8 @@ int id = 0;
 
 Future<void> requestPermissionsOnIos() async {
   IOSFlutterLocalNotificationsPlugin? iosFlutterLocalNotificationsPlugin =
-      flutterLocalNotificationPlugin.resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>();
+      flutterLocalNotificationPlugin.resolvePlatformSpecificImplementation<
+          IOSFlutterLocalNotificationsPlugin>();
   if (iosFlutterLocalNotificationsPlugin != null) {
     await iosFlutterLocalNotificationsPlugin.requestPermissions(
       alert: true,
@@ -311,11 +319,13 @@ Future<void> requestPermissionsOnIos() async {
 }
 
 // ignore: non_constant_identifier_names
-void OnDidReceiveBackgroundNotificationResponse(NotificationResponse notificationResponse) {
+void OnDidReceiveBackgroundNotificationResponse(
+    NotificationResponse notificationResponse) {
   print(notificationResponse);
 }
 
-void OnDidReceiveNotificationResponse(NotificationResponse notificationResponse) {
+void OnDidReceiveNotificationResponse(
+    NotificationResponse notificationResponse) {
   print("通知がクリックされたとき");
   print(notificationResponse);
 }
