@@ -1,1 +1,0 @@
- /Users/ruri/code/snow_prototype/.dart_tool/flutter_build/7130bfe3f73be32d095d8d16c503ddef/native_assets.yaml: 

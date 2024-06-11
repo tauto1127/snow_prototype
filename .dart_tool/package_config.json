@@ -2,6 +2,12 @@
   "configVersion": 2,
   "packages": [
     {
+      "name": "agora_rtc_engine",
+      "rootUri": "file:///Users/takuto/.pub-cache/hosted/pub.dev/agora_rtc_engine-6.3.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.14"
+    },
+    {
       "name": "archive",
       "rootUri": "file:///Users/takuto/.pub-cache/hosted/pub.dev/archive-3.6.1",
       "packageUri": "lib/",
@@ -122,10 +128,28 @@
       "languageVersion": "3.2"
     },
     {
+      "name": "flutter_web_plugins",
+      "rootUri": "file:///Users/takuto/fvm/versions/3.19.5/packages/flutter_web_plugins",
+      "packageUri": "lib/",
+      "languageVersion": "3.2"
+    },
+    {
       "name": "image",
       "rootUri": "file:///Users/takuto/.pub-cache/hosted/pub.dev/image-3.3.0",
       "packageUri": "lib/",
       "languageVersion": "2.15"
+    },
+    {
+      "name": "iris_method_channel",
+      "rootUri": "file:///Users/takuto/.pub-cache/hosted/pub.dev/iris_method_channel-2.1.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.14"
+    },
+    {
+      "name": "js",
+      "rootUri": "file:///Users/takuto/.pub-cache/hosted/pub.dev/js-0.7.1",
+      "packageUri": "lib/",
+      "languageVersion": "3.1"
     },
     {
       "name": "json_annotation",
@@ -152,6 +176,12 @@
       "languageVersion": "3.1"
     },
     {
+      "name": "logging",
+      "rootUri": "file:///Users/takuto/.pub-cache/hosted/pub.dev/logging-1.2.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.19"
+    },
+    {
       "name": "matcher",
       "rootUri": "file:///Users/takuto/.pub-cache/hosted/pub.dev/matcher-0.12.16+1",
       "packageUri": "lib/",
@@ -176,6 +206,42 @@
       "languageVersion": "3.0"
     },
     {
+      "name": "permission_handler",
+      "rootUri": "file:///Users/takuto/.pub-cache/hosted/pub.dev/permission_handler-11.3.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.15"
+    },
+    {
+      "name": "permission_handler_android",
+      "rootUri": "file:///Users/takuto/.pub-cache/hosted/pub.dev/permission_handler_android-12.0.6",
+      "packageUri": "lib/",
+      "languageVersion": "2.15"
+    },
+    {
+      "name": "permission_handler_apple",
+      "rootUri": "file:///Users/takuto/.pub-cache/hosted/pub.dev/permission_handler_apple-9.4.5",
+      "packageUri": "lib/",
+      "languageVersion": "2.15"
+    },
+    {
+      "name": "permission_handler_html",
+      "rootUri": "file:///Users/takuto/.pub-cache/hosted/pub.dev/permission_handler_html-0.1.1",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
+      "name": "permission_handler_platform_interface",
+      "rootUri": "file:///Users/takuto/.pub-cache/hosted/pub.dev/permission_handler_platform_interface-4.2.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.14"
+    },
+    {
+      "name": "permission_handler_windows",
+      "rootUri": "file:///Users/takuto/.pub-cache/hosted/pub.dev/permission_handler_windows-0.2.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "petitparser",
       "rootUri": "file:///Users/takuto/.pub-cache/hosted/pub.dev/petitparser-6.0.2",
       "packageUri": "lib/",
@@ -186,6 +252,18 @@
       "rootUri": "file:///Users/takuto/.pub-cache/hosted/pub.dev/plugin_platform_interface-2.1.8",
       "packageUri": "lib/",
       "languageVersion": "3.0"
+    },
+    {
+      "name": "sensors_plus",
+      "rootUri": "file:///Users/takuto/.pub-cache/hosted/pub.dev/sensors_plus-5.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "3.3"
+    },
+    {
+      "name": "sensors_plus_platform_interface",
+      "rootUri": "file:///Users/takuto/.pub-cache/hosted/pub.dev/sensors_plus_platform_interface-1.2.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
     },
     {
       "name": "sky_engine",
@@ -278,7 +356,7 @@
       "languageVersion": "3.3"
     }
   ],
-  "generated": "2024-06-09T05:50:05.236456Z",
+  "generated": "2024-06-11T07:27:38.073437Z",
   "generator": "pub",
   "generatorVersion": "3.3.3"
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:sinsetu_prototype/get_sensors.dart';
 
 // 設定たち
 const notifierMessage = "こんにちは";
@@ -20,19 +21,24 @@ final DarwinInitializationSettings initializationSettingsDarwin = DarwinInitiali
     requestBadgePermission: true,
     requestSoundPermission: true,
     onDidReceiveLocalNotification: (id, title, body, payload) {});
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   NotificationService().notificationTapBackground();
-  runApp(const MyApp());
+  // await FlutterCallkitIncoming.requestNotificationPermission({
+  //   "rationaleMessagePermission": "Notification permission is required, to show notification",
+  //   "postNotificationMessageRequired": "Notification permission is required, Please allow notification permission from setting."
+  // });
+
+  // await FlutterCallkitIncoming.requestNotificationPermission({
+  //   "rationaleMessagePermission": "Notification permission is required, to show notification",
+  //   "postNotificationMessageRequired": "Notification permisseion is required",
+  // });
+  runApp(MaterialApp(home: showSensorsWidget()));
+  // runApp(const MyApp());
 }
 
 class NotificationService {
-  Future<void> notificationTapBackground() async {
-    final InitializationSettings initializationSettings = InitializationSettings(iOS: initializationSettingsDarwin);
-    await flutterLocalNotificationPlugin.initialize(initializationSettings,
-        onDidReceiveBackgroundNotificationResponse: OnDidReceiveBackgroundNotificationResponse,
-        onDidReceiveNotificationResponse: OnDidReceiveNotificationResponse);
-  }
+  Future<void> notificationTapBackground() async {}
 }
 
 Future<void> startTimer() async {

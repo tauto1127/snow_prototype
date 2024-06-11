@@ -1,1 +1,0 @@
- /Users/takuto/Code/sinsetu_prototype/.dart_tool/flutter_build/294498a1d1b8f077e49fb3a0b7e4c27e/native_assets.yaml: 
