@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:sinsetu_prototype/get_sensors.dart';
+import 'package:sinsetu_prototype/gps_util.dart';
 
 // 設定たち
 const notifierMessage = "こんにちは";
@@ -25,6 +26,7 @@ final DarwinInitializationSettings initializationSettingsDarwin =
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   NotificationService().notificationTapBackground();
+  await getGps(0);
   // await FlutterCallkitIncoming.requestNotificationPermission({
   //   "rationaleMessagePermission": "Notification permission is required, to show notification",
   //   "postNotificationMessageRequired": "Notification permission is required, Please allow notification permission from setting."
