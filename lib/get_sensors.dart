@@ -1,8 +1,5 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_compass/flutter_compass.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:sinsetu_prototype/main.dart';
@@ -14,37 +11,41 @@ class Compass extends StatefulWidget {
 }
 
 class _CompassState extends State<Compass> {
-  @override
   Position myPosition = Position(
-    altitudeAccuracy: 0,
-    headingAccuracy: 0,
-    latitude: 41.84212,
-    longitude: 140.76847,
+    latitude: 140.76722289464738,
+    longitude: 41.84255807950272,
     timestamp: DateTime.now(),
     altitude: 0,
     accuracy: 0,
+    altitudeAccuracy: 0,
     heading: 0,
     speed: 0,
     speedAccuracy: 0,
+    headingAccuracy: 0,
     floor: null,
   );
+
   late StreamSubscription<Position> myPositionStream;
   late double? deviceDirection;
   final LocationSettings locationSettings = const LocationSettings(
     accuracy: LocationAccuracy.high,
     distanceFilter: 10,
   );
+
   Position markerPosition = Position(
-      longitude: 41.767470763313604,
-      latitude: 140.73334598482998,
-      timestamp: DateTime.now(),
-      accuracy: 0,
-      altitude: 0,
-      altitudeAccuracy: 0,
-      heading: 0,
-      headingAccuracy: 0,
-      speed: 0,
-      speedAccuracy: 0);
+    longitude: 140.70849955849715,
+    latitude: 41.7606567220339,
+    timestamp: DateTime.now(),
+    accuracy: 0,
+    altitude: 0,
+    altitudeAccuracy: 0,
+    heading: 0,
+    speed: 0,
+    speedAccuracy: 0,
+    headingAccuracy: 0,
+    floor: null,
+  );
+
   late double markerDirection;
   double directionTolerance = 5.0;
 
@@ -87,7 +88,9 @@ class _CompassState extends State<Compass> {
     myPositionStream =
         Geolocator.getPositionStream(locationSettings: locationSettings)
             .listen((Position position) {
-      myPosition = position;
+      setState(() {
+        myPosition = position;
+      });
     });
   }
 
@@ -97,57 +100,35 @@ class _CompassState extends State<Compass> {
     super.dispose();
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: StreamBuilder<CompassEvent>(
         stream: FlutterCompass.events,
         builder: (context, snapshot) {
           if (snapshot.hasError) {
-            return Text('Error reading heading: ${snapshot.error}');
+            return Center(
+                child: Text('Error reading heading: ${snapshot.error}'));
           }
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+            return const Center(child: CircularProgressIndicator());
           }
           deviceDirection = snapshot.data?.heading;
           if (deviceDirection == null) {
-            return const Center(
-              child: Text("Device does not have sensors !"),
-            );
+            return const Center(child: Text("Device does not have sensors!"));
           }
+
           markerDirection = calcDirection(myPosition, markerPosition);
 
           return Center(
-              child: Stack(
-            alignment: Alignment.center,
-            children: [
-              Container(
-                width: 200,
-                height: 200,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(width: 2.0, color: Colors.black),
-                ),
-              ),
-              Transform.rotate(
-                angle: (deviceDirection! * (3.141592653589793 / 180) * -1),
-                child: Icon(
-                  Icons.navigation_outlined,
-                  size: 100,
-                  color: checkTolerance(deviceDirection!, markerDirection)
-                      ? Colors.red
-                      : Colors.blue,
-                ),
-              )
-            ],
-          )
-
-              // Text(
-              // '${direction.toStringAsFixed(0)}°',
-              // style: const TextStyle(fontSize: 100),
-              // ),
-              );
+            child: Icon(
+              Icons.expand_less,
+              size: 100,
+              color: checkTolerance(deviceDirection!, markerDirection)
+                  ? Colors.red
+                  : Colors.blue,
+            ),
+          );
         },
       ),
     );
