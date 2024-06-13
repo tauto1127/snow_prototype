@@ -47,5 +47,9 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Your location is required for this app.</string>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>networkいい？</string>
 </dict>
 </plist>

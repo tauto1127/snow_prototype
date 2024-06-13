@@ -39,7 +39,7 @@ void main() async {
   //   "postNotificationMessageRequired": "Notification permisseion is required",
   // });
   _initForegroundTask();
-  runApp(MaterialApp(home: agoraCall()));
+  runApp(MaterialApp(home: Compass()));
   // runApp(const MyApp());
 }
 
