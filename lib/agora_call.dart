@@ -32,9 +32,9 @@ class _agoraCallState extends State<agoraCall> with WidgetsBindingObserver {
 
   Future<void> initAgoraCalling() async {
     debugPrint("initAgoraCalling");
-    uidEditingController.text = "5";
     await getToken();
     await initAgoraEngine();
+    await _engine.setDefaultAudioRouteToSpeakerphone(true);
     debugPrint("initAgoraCalling");
     await _engine.joinChannel(
         token: tokenEditingController.text,
@@ -150,7 +150,7 @@ class _agoraCallState extends State<agoraCall> with WidgetsBindingObserver {
     return WithForegroundTask(
         child: Scaffold(
       body: MyHomePage(title: "BATTARI"),
-      appBar: AppBar(),
+      // appBar: AppBar(),
       // floatingActionButton: TextButton(
       //   child: Text("call"),
       //   onPressed: () async {

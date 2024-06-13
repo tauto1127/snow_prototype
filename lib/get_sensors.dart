@@ -33,8 +33,8 @@ class _CompassState extends State<Compass> {
     distanceFilter: 10,
   );
   Position markerPosition = Position(
-      longitude: 0,
-      latitude: 0,
+      longitude: 140.72289,
+      latitude: 41.84678,
       timestamp: DateTime.now(),
       accuracy: 0,
       altitude: 0,
@@ -64,7 +64,7 @@ class _CompassState extends State<Compass> {
   }
 
   late double markerDirection;
-  double directionTolerance = 5.0;
+  double directionTolerance = 10.0;
 
   double calcDirection(Position startPosition, Position endPosition) {
     double startLat = startPosition.latitude;

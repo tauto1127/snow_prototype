@@ -150,7 +150,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
             Text(
-              "同じタイミングで扉を開けました",
+              "遠くで向かい合いました",
               style: TextStyle(fontSize: 15),
             ),
           ],
