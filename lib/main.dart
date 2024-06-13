@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:sinsetu_prototype/agora_call.dart';
 import 'package:sinsetu_prototype/get_sensors.dart';
+import 'package:sinsetu_prototype/gps_util.dart';
 
 // 設定たち
 const notifierMessage = "こんにちは";
@@ -24,6 +27,8 @@ final DarwinInitializationSettings initializationSettingsDarwin = DarwinInitiali
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   NotificationService().notificationTapBackground();
+  // await getGps(0);
+  // await setGps(0, 200, 200);
   // await FlutterCallkitIncoming.requestNotificationPermission({
   //   "rationaleMessagePermission": "Notification permission is required, to show notification",
   //   "postNotificationMessageRequired": "Notification permission is required, Please allow notification permission from setting."
@@ -33,7 +38,8 @@ void main() async {
   //   "rationaleMessagePermission": "Notification permission is required, to show notification",
   //   "postNotificationMessageRequired": "Notification permisseion is required",
   // });
-  runApp(MaterialApp(home: showSensorsWidget()));
+  _initForegroundTask();
+  runApp(MaterialApp(home: agoraCall()));
   // runApp(const MyApp());
 }
 
@@ -50,6 +56,21 @@ Future<void> startTimer() async {
   flutterLocalNotificationPlugin.show(id++, notifierTitle, notifierMessage, notificationDetails, payload: 'item z');
 }
 
+void _initForegroundTask() {
+  FlutterForegroundTask.init(
+      androidNotificationOptions: AndroidNotificationOptions(
+          channelId: 'foreground service',
+          channelName: 'Foreground Service Notification',
+          priority: NotificationPriority.MAX,
+          channelImportance: NotificationChannelImportance.MAX),
+      iosNotificationOptions: IOSNotificationOptions(),
+      foregroundTaskOptions: ForegroundTaskOptions(
+        interval: 300,
+        isOnceEvent: false,
+        allowWakeLock: true,
+        allowWifiLock: true,
+      ));
+}
 //@pragma('vm:entry-point')
 
 class MyApp extends StatelessWidget {
