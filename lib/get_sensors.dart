@@ -46,8 +46,8 @@ class _CompassState extends State<Compass> {
     Gps gps = await getGps(0);
     setState(() {
       markerPosition = Position(
-        longitude: gps.longitude, // 140.70849955849715,
-        latitude: gps.latitude, //41.7606567220339,
+        longitude: gps.longitude,
+        latitude: gps.latitude,
         timestamp: DateTime.now(),
         accuracy: 0,
         altitude: 0,
