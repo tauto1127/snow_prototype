@@ -35,6 +35,27 @@ public class AgoraController: ControllerBase
         if (result == null) throw new Exception("Token build failed");
         return result;
     }
+
+    [HttpGet]
+    public string GetChannelId()
+    {
+        return "souguu";
+    }
+
+    private static bool _isSouguu = false;
+
+    [HttpGet]
+    public bool IsSouguu()
+    {
+        return _isSouguu;
+    }
+
+    private static int _aloneChannelId = 100;
+    [HttpGet]
+    public string GetAloneChannelName()
+    {
+        return _aloneChannelId++.ToString();
+    }
 }
 
 public class UidUtil

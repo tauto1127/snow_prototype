@@ -2,10 +2,7 @@ import 'dart:io';
 
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_foreground_task/flutter_foreground_task.dart';
-import 'package:flutter_foreground_task/ui/with_foreground_task.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:sinsetu_prototype/const_variables.dart';
 import 'package:sinsetu_prototype/provider/agora_token_provider.dart';
@@ -19,7 +16,7 @@ Future<void> getToken() async {
   HttpClient httpClient = HttpClient();
 }
 
-class _agoraCallState extends State<agoraCall> {
+class _agoraCallState extends State<agoraCall> with WidgetsBindingObserver {
   TextEditingController uidEditingController = TextEditingController(text: "1");
   TextEditingController tokenEditingController = TextEditingController(text: token_agora);
   TextEditingController channelNameEditingController = TextEditingController(text: "test");
