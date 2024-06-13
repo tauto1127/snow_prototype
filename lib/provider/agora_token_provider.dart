@@ -12,5 +12,6 @@ import 'package:sinsetu_prototype/const_variables.dart';
 ///@return トークン
 Future<String> getAgoraToken(int uid, String channel) async {
   var res = await http.get(Uri.parse("${backend_base_url}/Agora/GetToken?channelName=$channel&uid=$uid"));
+  print("tokenは：${res.body}");
   return res.body;
 }

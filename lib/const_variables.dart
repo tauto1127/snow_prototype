@@ -3,4 +3,4 @@ const token_agora =
     "007eJxTYMjL2qnyVOnTvrsnPS5fv7h1u9Gpae2r5WKW7og2nKq3PrtHgcHYzDDJONHUwtLY1MDEIs0o0TLVNNU0ySjRNM3cwMLS9JV7RlpDICPDzJrnrIwMEAjiszCUpBaXMDAAAANcIbs=";
 const channel_agora = "test";
 
-const backend_base_url = 'http://192.168.91.4:5225';
+const backend_base_url = 'http://192.168.10.5:5225';
