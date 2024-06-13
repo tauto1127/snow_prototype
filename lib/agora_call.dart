@@ -27,13 +27,15 @@ class _agoraCallState extends State<agoraCall> with WidgetsBindingObserver {
   String token_temp = "49aa047c914e4af4a7f646d8a3f78f2c";
   @override
   void initState() {
-    initAgoraCalling();
     super.initState();
   }
 
   Future<void> initAgoraCalling() async {
-    await initAgoraCalling();
+    debugPrint("initAgoraCalling");
+    uidEditingController.text = "5";
     await getToken();
+    await initAgoraEngine();
+    debugPrint("initAgoraCalling");
     await _engine.joinChannel(
         token: tokenEditingController.text,
         channelId: channel_agora,
@@ -43,8 +45,11 @@ class _agoraCallState extends State<agoraCall> with WidgetsBindingObserver {
         options: const ChannelMediaOptions(clientRoleType: ClientRoleType.clientRoleBroadcaster));
   }
 
-  Future<void> getToken() async =>
-      tokenEditingController.text = await getAgoraToken(int.parse(uidEditingController.text), channelNameEditingController.text);
+  Future<String> getToken() async {
+    String _token = await getAgoraToken(int.parse(uidEditingController.text), channelNameEditingController.text);
+    tokenEditingController.text = _token;
+    return _token;
+  }
 
   Future<void> initAgoraEngine() async {
     _engine = createAgoraRtcEngineEx();
@@ -127,16 +132,32 @@ class _agoraCallState extends State<agoraCall> with WidgetsBindingObserver {
     }
   }
 
+  bool lock = false;
+
   @override
   Widget build(BuildContext context) {
     channelNameEditingController.addListener(() => setState(() {}));
     uidEditingController.addListener(() => setState(() {}));
     tokenEditingController.addListener(() => setState(() {}));
 
+    if (!lock) {
+      initAgoraCalling();
+      lock = true;
+    }
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      debugPrint("postFrameCallback");
+    });
     return WithForegroundTask(
         child: Scaffold(
       body: MyHomePage(title: "BATTARI"),
       appBar: AppBar(),
+      // floatingActionButton: TextButton(
+      //   child: Text("call"),
+      //   onPressed: () async {
+      //     debugPrint("what");
+      //     initAgoraCalling();
+      //   },
+      // ),
     ));
     return WithForegroundTask(
       child: Scaffold(

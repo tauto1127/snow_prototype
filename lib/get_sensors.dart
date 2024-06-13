@@ -87,10 +87,8 @@ class _CompassState extends State<Compass> {
   bool checkTolerance(double direction1, double direction2) {
     if ((direction1 - direction2).abs() < directionTolerance) {
       setStateLock = true;
-      debugPrint("direction1: $direction1, direction2: $direction2");
       return true;
     } else if ((direction1 - direction2).abs() > 360 - directionTolerance) {
-      debugPrint("direction1: $direction1, direction2: $direction2");
       setStateLock = true;
       return true;
     } else {
@@ -112,7 +110,6 @@ class _CompassState extends State<Compass> {
 
     // ユーザの現在位置を取得し続ける
     myPositionStream = Geolocator.getPositionStream(locationSettings: locationSettings).listen((Position position) {
-      debugPrint("myPosition");
       if (!setStateLock) {
         setState(() {
           myPosition = position;
@@ -153,7 +150,6 @@ class _CompassState extends State<Compass> {
           if (deviceDirection == null) {
             return const Center(child: Text("Device does not have sensors!"));
           }
-          debugPrint("setstatelock$setStateLock");
 
           markerDirection = calcDirection(myPosition, markerPosition);
           return Center(
