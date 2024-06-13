@@ -63,6 +63,7 @@ class _CompassState extends State<Compass> {
 
   late double markerDirection;
   double directionTolerance = 5.0;
+  bool hasNavigated = false; // 遷移を防ぐためのフラグ
 
   double calcDirection(Position startPosition, Position endPosition) {
     double startLat = startPosition.latitude;
@@ -107,6 +108,7 @@ class _CompassState extends State<Compass> {
         myPosition = position;
       });
     });
+    fetchMarkerPosition();
   }
 
   @override
@@ -134,17 +136,41 @@ class _CompassState extends State<Compass> {
           }
 
           markerDirection = calcDirection(myPosition, markerPosition);
+          bool isDirectionCorrect =
+              checkTolerance(deviceDirection!, markerDirection);
+
+          // 矢印が赤くなったら画面を遷移する
+          if (isDirectionCorrect && !hasNavigated) {
+            hasNavigated = true;
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => TargetScreen()),
+              );
+            });
+          }
 
           return Center(
             child: Icon(
               Icons.expand_less,
               size: 100,
-              color: checkTolerance(deviceDirection!, markerDirection)
-                  ? Colors.red
-                  : Colors.blue,
+              color: isDirectionCorrect ? Colors.red : Colors.blue,
             ),
           );
         },
+      ),
+    );
+  }
+}
+
+class TargetScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Target Screen')),
+      body: Center(
+        child: Text('You have reached your target!',
+            style: TextStyle(fontSize: 24)),
       ),
     );
   }
