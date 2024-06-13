@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class Gps {
@@ -18,7 +16,8 @@ class Gps {
 }
 
 Future<Gps> getGps(int userid) async {
-  Uri uri = Uri.parse("http://10.124.75.215:5225/Mukaiawase/GetGps?userid=0");
+  Uri uri = Uri.parse(
+      "http://10.124.56.19:5225/Mukaiawase/GetGps?userid=" + userid.toString());
 
   Gps gps;
   try {

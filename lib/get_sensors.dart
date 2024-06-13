@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_compass/flutter_compass.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:sinsetu_prototype/main.dart';
+import 'package:sinsetu_prototype/gps_util.dart';
 
 class Compass extends StatefulWidget {
   const Compass({super.key});
@@ -31,20 +31,35 @@ class _CompassState extends State<Compass> {
     accuracy: LocationAccuracy.high,
     distanceFilter: 10,
   );
-
   Position markerPosition = Position(
-    longitude: 140.70849955849715,
-    latitude: 41.7606567220339,
-    timestamp: DateTime.now(),
-    accuracy: 0,
-    altitude: 0,
-    altitudeAccuracy: 0,
-    heading: 0,
-    speed: 0,
-    speedAccuracy: 0,
-    headingAccuracy: 0,
-    floor: null,
-  );
+      longitude: 0,
+      latitude: 0,
+      timestamp: DateTime.now(),
+      accuracy: 0,
+      altitude: 0,
+      altitudeAccuracy: 0,
+      heading: 0,
+      headingAccuracy: 0,
+      speed: 0,
+      speedAccuracy: 0);
+  Future<void> fetchMarkerPosition() async {
+    Gps gps = await getGps(0);
+    setState(() {
+      markerPosition = Position(
+        longitude: gps.longitude, // 140.70849955849715,
+        latitude: gps.latitude, //41.7606567220339,
+        timestamp: DateTime.now(),
+        accuracy: 0,
+        altitude: 0,
+        altitudeAccuracy: 0,
+        heading: 0,
+        speed: 0,
+        speedAccuracy: 0,
+        headingAccuracy: 0,
+        floor: null,
+      );
+    });
+  }
 
   late double markerDirection;
   double directionTolerance = 5.0;
