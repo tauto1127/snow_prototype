@@ -16,9 +16,9 @@ public class AgoraController: ControllerBase
     }
 
     [HttpGet(Name = "GetUid")]
-    public int GetUid()
+    public int GetUid(String channelName)
     {
-        return UidUtil.getUid();
+        return UidUtil.GetUid(channelName);
     }
 
     [HttpGet(Name = "GetToken")]
@@ -39,10 +39,13 @@ public class AgoraController: ControllerBase
 
 public class UidUtil
 {
-    private static int uid = 0;
+    static Dictionary<string, int> _uidMap = new Dictionary<string, int>();
     
-    public static int getUid()
+    public static int GetUid(string channelName)
     {
-        return uid++;
+        if(_uidMap.ContainsKey(channelName))
+            return _uidMap[channelName]++;
+        else 
+            return _uidMap[channelName] = 0;
     }
 }
