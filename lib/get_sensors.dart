@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_compass/flutter_compass.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:sinsetu_prototype/agora_call.dart';
 import 'package:sinsetu_prototype/gps_util.dart';
 
 class Compass extends StatefulWidget {
@@ -44,6 +45,7 @@ class _CompassState extends State<Compass> {
       speedAccuracy: 0);
   Future<void> fetchMarkerPosition() async {
     Gps gps = await getGps(0);
+    if (setStateLock) return;
     setState(() {
       markerPosition = Position(
         longitude: gps.longitude, // 140.70849955849715,
@@ -76,10 +78,20 @@ class _CompassState extends State<Compass> {
     return direction;
   }
 
+  bool setStateLock = false;
+
+  Future<void> navigateToAgoraCall() async {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => agoraCall()));
+  }
+
   bool checkTolerance(double direction1, double direction2) {
     if ((direction1 - direction2).abs() < directionTolerance) {
+      setStateLock = true;
+      debugPrint("direction1: $direction1, direction2: $direction2");
       return true;
     } else if ((direction1 - direction2).abs() > 360 - directionTolerance) {
+      debugPrint("direction1: $direction1, direction2: $direction2");
+      setStateLock = true;
       return true;
     } else {
       return false;
@@ -100,9 +112,12 @@ class _CompassState extends State<Compass> {
 
     // ユーザの現在位置を取得し続ける
     myPositionStream = Geolocator.getPositionStream(locationSettings: locationSettings).listen((Position position) {
-      setState(() {
-        myPosition = position;
-      });
+      debugPrint("myPosition");
+      if (!setStateLock) {
+        setState(() {
+          myPosition = position;
+        });
+      }
     });
   }
 
@@ -112,12 +127,22 @@ class _CompassState extends State<Compass> {
     super.dispose();
   }
 
+  bool buildLock = false;
   @override
   Widget build(BuildContext context) {
+    Stream<CompassEvent>? event = FlutterCompass.events;
     return Scaffold(
       body: StreamBuilder<CompassEvent>(
-        stream: FlutterCompass.events,
+        stream: event,
         builder: (context, snapshot) {
+          WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+            if (setStateLock && !buildLock) {
+              event = null;
+              buildLock = true;
+              navigateToAgoraCall();
+            }
+            ;
+          });
           if (snapshot.hasError) {
             return Center(child: Text('Error reading heading: ${snapshot.error}'));
           }
@@ -128,9 +153,9 @@ class _CompassState extends State<Compass> {
           if (deviceDirection == null) {
             return const Center(child: Text("Device does not have sensors!"));
           }
+          debugPrint("setstatelock$setStateLock");
 
           markerDirection = calcDirection(myPosition, markerPosition);
-
           return Center(
             child: Icon(
               Icons.expand_less,

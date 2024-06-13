@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:sinsetu_prototype/const_variables.dart';
+import 'package:sinsetu_prototype/main.dart';
 import 'package:sinsetu_prototype/provider/agora_token_provider.dart';
 
 class agoraCall extends StatefulWidget {
@@ -26,7 +27,20 @@ class _agoraCallState extends State<agoraCall> with WidgetsBindingObserver {
   String token_temp = "49aa047c914e4af4a7f646d8a3f78f2c";
   @override
   void initState() {
+    initAgoraEngine();
     super.initState();
+  }
+
+  Future<void> initAgoraCalling() async {
+    await initAgoraCalling();
+    await getToken();
+    await _engine.joinChannel(
+        token: tokenEditingController.text,
+        channelId: channel_agora,
+        uid: int.parse(uidEditingController.text),
+        // Set the user role as host
+        // To set the user role to audience, change clientRoleBroadcaster to clientRoleAudience
+        options: const ChannelMediaOptions(clientRoleType: ClientRoleType.clientRoleBroadcaster));
   }
 
   Future<void> getToken() async =>
@@ -119,6 +133,11 @@ class _agoraCallState extends State<agoraCall> with WidgetsBindingObserver {
     uidEditingController.addListener(() => setState(() {}));
     tokenEditingController.addListener(() => setState(() {}));
 
+    return WithForegroundTask(
+        child: Scaffold(
+      body: MyHomePage(title: "BATTARI"),
+      appBar: AppBar(),
+    ));
     return WithForegroundTask(
       child: Scaffold(
         appBar: AppBar(
