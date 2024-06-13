@@ -1,10 +1,19 @@
 # This is a generated file; do not edit or check into version control.
 agora_rtc_engine=/Users/takuto/.pub-cache/hosted/pub.dev/agora_rtc_engine-6.3.2/
+flutter_foreground_task=/Users/takuto/.pub-cache/hosted/pub.dev/flutter_foreground_task-6.5.0/
 flutter_local_notifications=/Users/takuto/.pub-cache/hosted/pub.dev/flutter_local_notifications-17.1.2/
 iris_method_channel=/Users/takuto/.pub-cache/hosted/pub.dev/iris_method_channel-2.1.1/
+path_provider_linux=/Users/takuto/.pub-cache/hosted/pub.dev/path_provider_linux-2.2.1/
+path_provider_windows=/Users/takuto/.pub-cache/hosted/pub.dev/path_provider_windows-2.2.1/
 permission_handler=/Users/takuto/.pub-cache/hosted/pub.dev/permission_handler-11.3.1/
 permission_handler_android=/Users/takuto/.pub-cache/hosted/pub.dev/permission_handler_android-12.0.6/
 permission_handler_apple=/Users/takuto/.pub-cache/hosted/pub.dev/permission_handler_apple-9.4.5/
 permission_handler_html=/Users/takuto/.pub-cache/hosted/pub.dev/permission_handler_html-0.1.1/
 permission_handler_windows=/Users/takuto/.pub-cache/hosted/pub.dev/permission_handler_windows-0.2.1/
 sensors_plus=/Users/takuto/.pub-cache/hosted/pub.dev/sensors_plus-5.0.1/
+shared_preferences=/Users/takuto/.pub-cache/hosted/pub.dev/shared_preferences-2.2.3/
+shared_preferences_android=/Users/takuto/.pub-cache/hosted/pub.dev/shared_preferences_android-2.2.2/
+shared_preferences_foundation=/Users/takuto/.pub-cache/hosted/pub.dev/shared_preferences_foundation-2.4.0/
+shared_preferences_linux=/Users/takuto/.pub-cache/hosted/pub.dev/shared_preferences_linux-2.3.2/
+shared_preferences_web=/Users/takuto/.pub-cache/hosted/pub.dev/shared_preferences_web-2.3.0/
+shared_preferences_windows=/Users/takuto/.pub-cache/hosted/pub.dev/shared_preferences_windows-2.3.2/
