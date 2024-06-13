@@ -27,7 +27,7 @@ class _agoraCallState extends State<agoraCall> with WidgetsBindingObserver {
   String token_temp = "49aa047c914e4af4a7f646d8a3f78f2c";
   @override
   void initState() {
-    initAgoraEngine();
+    initAgoraCalling();
     super.initState();
   }
 
