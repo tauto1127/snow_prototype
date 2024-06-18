@@ -19,11 +19,12 @@ const TextStyle titleTextStyle = TextStyle(
     fontWeight: FontWeight.bold);
 
 final flutterLocalNotificationPlugin = FlutterLocalNotificationsPlugin();
-final DarwinInitializationSettings initializationSettingsDarwin = DarwinInitializationSettings(
-    requestAlertPermission: true,
-    requestBadgePermission: true,
-    requestSoundPermission: true,
-    onDidReceiveLocalNotification: (id, title, body, payload) {});
+final DarwinInitializationSettings initializationSettingsDarwin =
+    DarwinInitializationSettings(
+        requestAlertPermission: true,
+        requestBadgePermission: true,
+        requestSoundPermission: true,
+        onDidReceiveLocalNotification: (id, title, body, payload) {});
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   NotificationService().notificationTapBackground();
@@ -49,11 +50,15 @@ class NotificationService {
 
 Future<void> startTimer() async {
   await Future.delayed(const Duration(seconds: notifierSeconds));
-  const DarwinNotificationDetails darwinNotificationDetails = DarwinNotificationDetails();
+  const DarwinNotificationDetails darwinNotificationDetails =
+      DarwinNotificationDetails();
 
-  const NotificationDetails notificationDetails = NotificationDetails(iOS: darwinNotificationDetails);
+  const NotificationDetails notificationDetails =
+      NotificationDetails(iOS: darwinNotificationDetails);
 
-  flutterLocalNotificationPlugin.show(id++, notifierTitle, notifierMessage, notificationDetails, payload: 'item z');
+  flutterLocalNotificationPlugin.show(
+      id++, notifierTitle, notifierMessage, notificationDetails,
+      payload: 'item z');
 }
 
 void _initForegroundTask() {
@@ -80,7 +85,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple), useMaterial3: true),
+      theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true),
       home: const MyHomePage(
         title: "アプリ",
       ),
@@ -125,7 +132,8 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  final widgetDecoration = BoxDecoration(borderRadius: BorderRadius.circular(40), color: Colors.grey[200]);
+  final widgetDecoration = BoxDecoration(
+      borderRadius: BorderRadius.circular(40), color: Colors.grey[200]);
 
   Widget talkingWith() {
     return Container(
@@ -230,7 +238,8 @@ class _MyHomePageState extends State<MyHomePage> {
               Card(
                   margin: const EdgeInsets.all(15),
                   child: Container(
-                    margin: const EdgeInsets.symmetric(vertical: 7, horizontal: 10),
+                    margin:
+                        const EdgeInsets.symmetric(vertical: 7, horizontal: 10),
                     child: Text(
                       keyword,
                       style: const TextStyle(fontSize: 20),
@@ -255,7 +264,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Column(
                   children: [
                     Container(
-                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(200)),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(200)),
                       child: const Icon(
                         size: 40,
                         Icons.volume_up,
@@ -277,7 +287,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Column(
                   children: [
                     Container(
-                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(200)),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(200)),
                       child: Icon(
                         size: 40,
                         Icons.mic_off_outlined,
@@ -296,7 +307,9 @@ class _MyHomePageState extends State<MyHomePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(200), color: Colors.red),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(200),
+                    color: Colors.red),
                 child: Padding(
                   padding: EdgeInsets.all(18.0),
                   child: IconButton(
@@ -324,7 +337,8 @@ int id = 0;
 
 Future<void> requestPermissionsOnIos() async {
   IOSFlutterLocalNotificationsPlugin? iosFlutterLocalNotificationsPlugin =
-      flutterLocalNotificationPlugin.resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>();
+      flutterLocalNotificationPlugin.resolvePlatformSpecificImplementation<
+          IOSFlutterLocalNotificationsPlugin>();
   if (iosFlutterLocalNotificationsPlugin != null) {
     await iosFlutterLocalNotificationsPlugin.requestPermissions(
       alert: true,
@@ -335,11 +349,13 @@ Future<void> requestPermissionsOnIos() async {
 }
 
 // ignore: non_constant_identifier_names
-void OnDidReceiveBackgroundNotificationResponse(NotificationResponse notificationResponse) {
+void OnDidReceiveBackgroundNotificationResponse(
+    NotificationResponse notificationResponse) {
   print(notificationResponse);
 }
 
-void OnDidReceiveNotificationResponse(NotificationResponse notificationResponse) {
+void OnDidReceiveNotificationResponse(
+    NotificationResponse notificationResponse) {
   print("通知がクリックされたとき");
   print(notificationResponse);
 }
