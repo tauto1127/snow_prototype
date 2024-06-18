@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:sinsetu_prototype/agora_call.dart';
 import 'package:sinsetu_prototype/get_sensors.dart';
 import 'package:sinsetu_prototype/gps_util.dart';
 
@@ -26,7 +28,8 @@ final DarwinInitializationSettings initializationSettingsDarwin =
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   NotificationService().notificationTapBackground();
-  await getGps(0);
+  // await getGps(0);
+  // await setGps(0, 200, 200);
   // await FlutterCallkitIncoming.requestNotificationPermission({
   //   "rationaleMessagePermission": "Notification permission is required, to show notification",
   //   "postNotificationMessageRequired": "Notification permission is required, Please allow notification permission from setting."
@@ -36,6 +39,7 @@ void main() async {
   //   "rationaleMessagePermission": "Notification permission is required, to show notification",
   //   "postNotificationMessageRequired": "Notification permisseion is required",
   // });
+  _initForegroundTask();
   runApp(MaterialApp(home: Compass()));
   // runApp(const MyApp());
 }
@@ -57,6 +61,21 @@ Future<void> startTimer() async {
       payload: 'item z');
 }
 
+void _initForegroundTask() {
+  FlutterForegroundTask.init(
+      androidNotificationOptions: AndroidNotificationOptions(
+          channelId: 'foreground service',
+          channelName: 'Foreground Service Notification',
+          priority: NotificationPriority.MAX,
+          channelImportance: NotificationChannelImportance.MAX),
+      iosNotificationOptions: IOSNotificationOptions(),
+      foregroundTaskOptions: ForegroundTaskOptions(
+        interval: 300,
+        isOnceEvent: false,
+        allowWakeLock: true,
+        allowWifiLock: true,
+      ));
+}
 //@pragma('vm:entry-point')
 
 class MyApp extends StatelessWidget {
@@ -110,11 +129,6 @@ class _MyHomePageState extends State<MyHomePage> {
           );
         }),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {},
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 
@@ -144,7 +158,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
             Text(
-              "同じタイミングで扉を開けました",
+              "遠くで向かい合いました",
               style: TextStyle(fontSize: 15),
             ),
           ],

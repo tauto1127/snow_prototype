@@ -16,8 +16,7 @@ class Gps {
 }
 
 Future<Gps> getGps(int userid) async {
-  Uri uri = Uri.parse(
-      "http://10.124.56.19:5225/Mukaiawase/GetGps?userid=" + userid.toString());
+  Uri uri = Uri.parse("http://10.124.56.19:5225/Mukaiawase/GetGps?userid=" + userid.toString());
 
   Gps gps;
   try {
@@ -32,8 +31,7 @@ Future<Gps> getGps(int userid) async {
 }
 
 Future<Gps> setGps(int userid, double latitude, double longitude) async {
-  Uri uri = Uri.parse(
-      "http://10.124.75.215:5225/Mukaiawase/SetGps?userid=0&latitude=$latitude&longitude=$longitude");
+  Uri uri = Uri.parse("http://10.124.75.215:5225/Mukaiawase/SetGps?userid=0&latitude=$latitude&longitude=$longitude");
   Gps gps;
   try {
     var response = await http.put(uri);

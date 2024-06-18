@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_compass/flutter_compass.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:sinsetu_prototype/agora_call.dart';
 import 'package:sinsetu_prototype/gps_util.dart';
 
 class Compass extends StatefulWidget {
@@ -32,8 +33,8 @@ class _CompassState extends State<Compass> {
     distanceFilter: 10,
   );
   Position markerPosition = Position(
-      longitude: 0,
-      latitude: 0,
+      longitude: 140.72289,
+      latitude: 41.84678,
       timestamp: DateTime.now(),
       accuracy: 0,
       altitude: 0,
@@ -44,6 +45,7 @@ class _CompassState extends State<Compass> {
       speedAccuracy: 0);
   Future<void> fetchMarkerPosition() async {
     Gps gps = await getGps(0);
+    if (setStateLock) return;
     setState(() {
       markerPosition = Position(
         longitude: gps.longitude, // 140.70849955849715,
@@ -62,25 +64,32 @@ class _CompassState extends State<Compass> {
   }
 
   late double markerDirection;
-  double directionTolerance = 5.0;
+  double directionTolerance = 10.0;
 
   double calcDirection(Position startPosition, Position endPosition) {
     double startLat = startPosition.latitude;
     double startLng = startPosition.longitude;
     double endLat = endPosition.latitude;
     double endLng = endPosition.longitude;
-    double direction =
-        Geolocator.bearingBetween(startLat, startLng, endLat, endLng);
+    double direction = Geolocator.bearingBetween(startLat, startLng, endLat, endLng);
     if (direction < 0.0) {
       direction += 360.0;
     }
     return direction;
   }
 
+  bool setStateLock = false;
+
+  Future<void> navigateToAgoraCall() async {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => agoraCall()));
+  }
+
   bool checkTolerance(double direction1, double direction2) {
     if ((direction1 - direction2).abs() < directionTolerance) {
+      setStateLock = true;
       return true;
     } else if ((direction1 - direction2).abs() > 360 - directionTolerance) {
+      setStateLock = true;
       return true;
     } else {
       return false;
@@ -100,12 +109,12 @@ class _CompassState extends State<Compass> {
     });
 
     // ユーザの現在位置を取得し続ける
-    myPositionStream =
-        Geolocator.getPositionStream(locationSettings: locationSettings)
-            .listen((Position position) {
-      setState(() {
-        myPosition = position;
-      });
+    myPositionStream = Geolocator.getPositionStream(locationSettings: locationSettings).listen((Position position) {
+      if (!setStateLock) {
+        setState(() {
+          myPosition = position;
+        });
+      }
     });
   }
 
@@ -115,15 +124,24 @@ class _CompassState extends State<Compass> {
     super.dispose();
   }
 
+  bool buildLock = false;
   @override
   Widget build(BuildContext context) {
+    Stream<CompassEvent>? event = FlutterCompass.events;
     return Scaffold(
       body: StreamBuilder<CompassEvent>(
-        stream: FlutterCompass.events,
+        stream: event,
         builder: (context, snapshot) {
+          WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+            if (setStateLock && !buildLock) {
+              event = null;
+              buildLock = true;
+              navigateToAgoraCall();
+            }
+            ;
+          });
           if (snapshot.hasError) {
-            return Center(
-                child: Text('Error reading heading: ${snapshot.error}'));
+            return Center(child: Text('Error reading heading: ${snapshot.error}'));
           }
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -134,14 +152,11 @@ class _CompassState extends State<Compass> {
           }
 
           markerDirection = calcDirection(myPosition, markerPosition);
-
           return Center(
             child: Icon(
               Icons.expand_less,
               size: 100,
-              color: checkTolerance(deviceDirection!, markerDirection)
-                  ? Colors.red
-                  : Colors.blue,
+              color: checkTolerance(deviceDirection!, markerDirection) ? Colors.red : Colors.blue,
             ),
           );
         },
