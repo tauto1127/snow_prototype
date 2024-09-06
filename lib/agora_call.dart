@@ -75,12 +75,25 @@ class _agoraCallState extends State<agoraCall> {
     await getToken();
     FlutterForegroundTask.launchApp();
     await waitUntilScreenOn();
+    await startAgoraCalling();
     _engine.leaveChannel();
     _engine.joinChannel(
         token: tokenEditingController.text,
         channelId: channelNameEditingController.text,
         uid: int.parse(uidEditingController.text),
         options: const ChannelMediaOptions(clientRoleType: ClientRoleType.clientRoleBroadcaster));
+  }
+
+  Future<void> startAgoraCalling() async {
+    await initAgoraEngine();
+    await _engine.joinChannel(
+        token: tokenEditingController.text,
+        channelId: channel_agora,
+        uid: int.parse(uidEditingController.text),
+        // Set the user role as host
+        // To set the user role to audience, change clientRoleBroadcaster to clientRoleAudience
+        options: const ChannelMediaOptions(clientRoleType: ClientRoleType.clientRoleBroadcaster));
+    debugPrint("通話開始" + uidEditingController.text);
   }
 
   Future<void> _requestPermissionForAndroid() async {
@@ -114,6 +127,13 @@ class _agoraCallState extends State<agoraCall> {
     if (notificationPermissionStatus != NotificationPermission.granted) {
       await FlutterForegroundTask.requestNotificationPermission();
     }
+  }
+
+  Future<void> autoCallingStart() async {
+    await Future.delayed(Duration(seconds: 10));
+    getToken();
+    await startAgoraCalling();
+    print("autoCallingStart");
   }
 
   @override
